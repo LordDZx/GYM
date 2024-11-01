@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>جدول تدريب الجيم المحسّن مع حفظ التقدم</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap');
+        body {
+            font-family: 'Tajawal', sans-serif;
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-r from-blue-100 to-blue-200 text-gray-800">
+    <div class="container mx-auto p-5">
+        <h1 class="text-4xl font-bold mb-8 text-center text-blue-800 fade-in">جدول تدريب الجيم المحسّن مع حفظ التقدم</h1>
+        
+        <div class="bg-white rounded-lg shadow-lg overflow-hidden mb-8 fade-in">
+            <div class="p-6">
+                <h2 class="text-2xl font-bold mb-4 text-blue-600">تتبع التقدم</h2>
+                <canvas id="progressChart" width="400" height="200"></canvas>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-lg overflow-hidden mb-8 fade-in">
+            <div class="p-6">
+                <h2 class="text-2xl font-bold mb-4 text-blue-600">اقتباس تحفيزي</h2>
+                <p id="quote" class="text-lg italic"></p>
+                <button id="newQuote" class="mt-4 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
+                    اقتباس جديد
+                </button>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-lg overflow-hidden fade-in">
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead>
+                        <tr class="bg-blue-600 text-white">
+                            <th class="py-3 px-6 text-right">اليوم</th>
+                            <th class="py-3 px-6 text-right">التمارين</th>
+                            <th class="py-3 px-6 text-right">إكمال</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="border-b border-gray-200 hover:bg-gray-100 transition duration-300">
+                            <td class="py-4 px-6 font-semibold">اليوم 1</td>
+                            <td class="py-4 px-6">
+                                <ul class="list-disc list-inside space-y-2">
+                                    <li>تمارين ضغط الصدر: 3 مجموعات × 10-12 تكرار</li>
+                                    <li>تمارين ضغط الكتف: 3 مجموعات × 10-12 تكرار</li>
+                                    <li>تمارين العضلة الثلاثية: 3 مجموعات × 10-12 تكرار</li>
+                                </ul>
+                            </td>
+                            <td class="py-4 px-6">
+                                <input type="checkbox" class="form-checkbox h-5 w-5 text-blue-600 completion-checkbox" data-day="1">
+                            </td>
+                        </tr>
+                        <tr class="border-b border-gray-200 hover:bg-gray-100 transition duration-300">
+                            <td class="py-4 px-6 font-semibold">اليوم 2</td>
+                            <td class="py-4 px-6 text-green-600 font-semibold">راحة</td>
+                            <td class="py-4 px-6">
+                                <input type="checkbox" class="form-checkbox h-5 w-5 text-blue-600 completion-checkbox" data-day="2">
+                            </td>
+                        </tr>
+                        <tr class="border-b border-gray-200 hover:bg-gray-100 transition duration-300">
+                            <td class="py-4 px-6 font-semibold">اليوم 3</td>
+                            <td class="py-4 px-6">
+                                <ul class="list-disc list-inside space-y-2">
+                                    <li>تمارين سحب الظهر: 3 مجموعات × 8-10 تكرار</li>
+                                    <li>تمارين صف الكابل: 3 مجموعات × 10-12 تكرار</li>
+                                    <li>تمارين العضلة الثنائية: 3 مجموعات × 10-12 تكرار</li>
+                                </ul>
+                            </td>
+                            <td class="py-4 px-6">
+                                <input type="checkbox" class="form-checkbox h-5 w-5 text-blue-600 completion-checkbox" data-day="3">
+                            </td>
+                        </tr>
+                        <tr class="border-b border-gray-200 hover:bg-gray-100 transition duration-300">
+                            <td class="py-4 px-6 font-semibold">اليوم 4</td>
+                            <td class="py-4 px-6 text-green-600 font-semibold">راحة</td>
+                            <td class="py-4 px-6">
+                                <input type="checkbox" class="form-checkbox h-5 w-5 text-blue-600 completion-checkbox" data-day="4">
+                            </td>
+                        </tr>
+                        <tr class="border-b border-gray-200 hover:bg-gray-100 transition duration-300">
+                            <td class="py-4 px-6 font-semibold">اليوم 5</td>
+                            <td class="py-4 px-6">
+                                <ul class="list-disc list-inside space-y-2">
+                                    <li>تمارين القرفصاء: 3 مجموعات × 10-12 تكرار</li>
+                                    <li>تمارين دفع الساق: 3 مجموعات × 10-12 تكرار</li>
+                                    <li>تمارين رفع الساق: 3 مجموعات × 12-15 تكرار</li>
+                                </ul>
+                            </td>
+                            <td class="py-4 px-6">
+                                <input type="checkbox" class="form-checkbox h-5 w-5 text-blue-600 completion-checkbox" data-day="5">
+                            </td>
+                        </tr>
+                        <tr class="border-b border-gray-200 hover:bg-gray-100 transition duration-300">
+                            <td class="py-4 px-6 font-semibold">اليوم 6</td>
+                            <td class="py-4 px-6 text-green-600 font-semibold">راحة</td>
+                            <td class="py-4 px-6">
+                                <input type="checkbox" class="form-checkbox h-5 w-5 text-blue-600 completion-checkbox" data-day="6">
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-gray-100 transition duration-300">
+                            <td class="py-4 px-6 font-semibold">اليوم 7</td>
+                            <td class="py-4 px-6">
+                                <ul class="list-disc list-inside space-y-2">
+                                    <li>تمارين بلانك مع الكرة: 3 مجموعات × 30-60 ثانية</li>
+                                    <li>تمارين ضغط البطن باستخدام الكابل: 3 مجموعات × 15-20 تكرار</li>
+                                    <li>تمارين القرفصاء باستخدام الدمبل: 3 مجموعات × 10-12 تكرار</li>
+                                    <li>تمارين سحب الكابل: 3 مجموعات × 10-12 تكرار</li>
+                                    <li>تمارين ضغط الصدر على آلة: 3 مجموعات × 10-12 تكرار</li>
+                                    <li>تمارين القفز على المنصة: 3 مجموعات × 10-15 تكرار</li>
+                                </ul>
+                            </td>
+                            <td class="py-4 px-6">
+                                <input type="checkbox" class="form-checkbox h-5 w-5 text-blue-600 completion-checkbox" data-day="7">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Progress Chart
+        const ctx = document.getElementById('progressChart').getContext('2d');
+        const progressChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['اليوم 1', 'اليوم 2', 'اليوم 3', 'اليوم 4', 'اليوم 5', 'اليوم 6', 'اليوم 7'],
+                datasets: [{
+                    label: 'تقدم التدريب',
+                    data: [0, 0, 0, 0, 0, 0, 0],
+                    backgroundColor: 'rgba(59, 130, 246, 0.5)',
+                    borderColor: 'rgb(59, 130, 246)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 1
+                    }
+                }
+            }
+        });
+
+        // Cookie functions
+        function setCookie(name, value, days) {
+            const expires = new Date();
+            expires.setTime(expires.getTime() + days * 24 * 60 * 60 * 1000);
+            document.cookie = name + '=' + value + ';expires=' + expires.toUTCString() + ';path=/';
+        }
+
+        function getCookie(name) {
+            const nameEQ = name + "=";
+            const ca = document.cookie.split(';');
+            for(let i = 0; i < ca.length; i++) {
+                let c = ca[i];
+                while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+                if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+            }
+            return null;
+        }
+
+        // Load progress from cookies
+        function loadProgress() {
+            const progress = getCookie('gymProgress');
+            if (progress) {
+                const progressData = JSON.parse(progress);
+                progressChart.data.datasets[0].data = progressData;
+                progressChart.update();
+
+                document.querySelectorAll('.completion-checkbox').forEach((checkbox, index) => {
+                    checkbox.checked = progressData[index] === 1;
+                });
+            }
+        }
+
+        // Save progress to cookies
+        function saveProgress() {
+            const progress = progressChart.data.datasets[0].data;
+            setCookie('gymProgress', JSON.stringify(progress), 30); // Save for 30 days
+        }
+
+        // Update progress chart when checkboxes are clicked
+        document.querySelectorAll('.completion-checkbox').forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                const day = this.getAttribute('data-day');
+                progressChart.data.datasets[0].data[day - 1] = this.checked ? 1 : 0;
+                progressChart.update();
+                saveProgress();
+            });
+        });
+
+        // Load progress on page load
+        loadProgress();
+
+        // Motivational Quotes
+        const quotes = [
+            "القوة لا تأتي من القدرة البدنية. إنها تأتي من الإرادة التي لا تقهر.",
+            "النجاح ليس نهائيًا، والفشل ليس قاتلاً: إنها الشجاعة للاستمرار هي ما يهم.",
+            "الألم مؤقت. قد يستمر لدقيقة، أو ساعة، أو يوم، أو حتى سنة، ولكنه سينتهي في النهاية وسيحل محله شيء آخر. إذا توقفت، فسوف يدوم إلى الأبد.",
+            "لا تستسلم لما أنت عليه. اكافح من أجل ما يمكن أن تكون عليه غدًا.",
+            "عندما تشعر بالرغبة في الاستسلام، فكر في السبب الذي جعلك تبدأ."
+        ];
+
+        function getRandomQuote() {
+            return quotes[Math.floor(Math.random() * quotes.length)];
+        }
+
+        document.getElementById('quote').textContent = getRandomQuote();
+        document.getElementById('newQuote').addEventListener('click', function() {
+            document.getElementById('quote').textContent = getRandomQuote();
+        });
+
+        // Fade-in animation for sections
+        document.addEventListener('DOMContentLoaded', (event) => {
+            document.querySelectorAll('.fade-in').forEach((element, index) => {
+                setTimeout(() => {
+                    element.style.opacity = '1';
+                }, index * 200);
+            });
+        });
+    </script>
+</body>
+</html>
